@@ -1,0 +1,10 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.livrokotlin.bitcoincalculator.MainActivity"
+    android:padding="16dp"
+    android:orientation="vertical">
+    <include layout="@layout/title_block"/> <include layout="@layout/quotation_block"/><include layout="@layout/input_block"/>
+    <include layout="@layout/output_block"/>
+</LinearLayout>
