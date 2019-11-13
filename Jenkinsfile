@@ -7,19 +7,8 @@ pipeline {
 	}
 	
 
-	stages{  
-	
-		stage('Iniciar Docker'){
+	stages{  	
 		
-			steps{	
-			
-			sh(""" sudo su""")
-			sh(""" service docker start """)
-			sh(""" sleep 15 """)
-			
-			}
-			
-		}
 		stage('Build'){
 		
 			steps{								
@@ -107,7 +96,7 @@ pipeline {
 				}
 
 				echo "#####################################"
-				echo "FUNCTIONAL TEST DEVIVE FARM"		
+				echo "FUNCTIONAL TEST DEVICE FARM"		
 				echo "#####################################"
 			}		
 		}
