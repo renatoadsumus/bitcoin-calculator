@@ -82,6 +82,14 @@ pipeline {
 				 	appium:2.0 mvn -DskipTests -P prepare-for-upload package
 				""")
 
+				sh("""docker run \
+				 	--rm \
+				 	-w /root/codigo_teste \
+				 	-v ${WORKSPACE}:/root/codigo_aplicacao \
+					-v ${WORKSPACE}/appium_test:/root/codigo_teste \
+				 	appium:2.0 /root/appcenter_run_test.sh
+				""")
+
 				}
 
 				echo "#####################################"
