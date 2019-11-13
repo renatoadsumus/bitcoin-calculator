@@ -85,6 +85,7 @@ pipeline {
 				sh("""docker run \
 				 	--rm \
 				 	-w /root/codigo_teste \
+					-e TOKEN_APPCENTER=$TOKEN \
 				 	-v ${WORKSPACE}:/root/codigo_aplicacao \
 					-v ${WORKSPACE}/appium_test:/root/codigo_teste \
 				 	appium:2.0 /root/appcenter_run_test.sh
