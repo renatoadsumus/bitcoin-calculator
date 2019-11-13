@@ -9,6 +9,17 @@ pipeline {
 
 	stages{  
 	
+		stage('Iniciar Docker'){
+		
+			steps{	
+			
+			sh(""" sudo su""")
+			sh(""" service docker start """)
+			sh(""" sleep 15 """)
+			
+			}
+			
+		}
 		stage('Build'){
 		
 			steps{								
