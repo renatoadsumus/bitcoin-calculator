@@ -74,12 +74,13 @@ pipeline {
                     url: 'https://github.com/renatoadsumus/appium.git'	
                 
 
-				/* sh("""docker run \
+				 sh("""docker run \
 				 	--rm \
-				 	-w /root/codigo_aplicacao \
+				 	-w /root/codigo_teste \
 				 	-v ${WORKSPACE}:/root/codigo_aplicacao \
+					-v ${WORKSPACE}/appium_test:/root/codigo_teste \
 				 	appium:2.0 mvn -DskipTests -P prepare-for-upload package
-				""")*/
+				""")
 
 				}
 
@@ -98,7 +99,7 @@ pipeline {
 				 	--rm \
 				 	-w /root/codigo_aplicacao \
 				 	-v ${WORKSPACE}:/root/codigo_aplicacao \
-					-e TOKEN_APPCENTER=$TOKEN
+					-e TOKEN_APPCENTER=$TOKEN \
 				 	appium:2.0 /root/appcenter_deploy.sh
 				""")		
 			
