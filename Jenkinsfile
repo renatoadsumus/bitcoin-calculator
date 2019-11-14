@@ -16,6 +16,7 @@ pipeline {
                 sh("""docker run \
 				 	--rm \
 				 	-w /root/codigo_aplicacao \
+					-v /home/ec2-user/repositorio:/root/.m2/repository \
 				 	-v ${WORKSPACE}:/root/codigo_aplicacao \
 				 	appium:2.0 gradlew build
 				""")
@@ -35,6 +36,7 @@ pipeline {
 				 	--rm \
 				 	-w /root/codigo_aplicacao \
 				 	-v ${WORKSPACE}:/root/codigo_aplicacao \
+					-v /home/ec2-user/repositorio:/root/.m2/repository \
 				 	appium:2.0 gradlew test
 				 """)
 
@@ -53,6 +55,7 @@ pipeline {
 				 	--rm \
 				 	-w /root/codigo_aplicacao \
 				 	-v ${WORKSPACE}:/root/codigo_aplicacao \
+					-v /home/ec2-user/repositorio:/root/.m2/repository \
 				 	appium:2.0 gradlew assembleDebug
 				""")
 
@@ -77,6 +80,7 @@ pipeline {
 					 sh("""docker run \
 						--rm \
 						-w /root/codigo_teste \
+						-v /home/ec2-user/repositorio:/root/.m2/repository \
 						-v ${WORKSPACE}:/root/codigo_aplicacao \
 						-v ${WORKSPACE}/appium_test:/root/codigo_teste \
 						appium:2.0 mvn -DskipTests -P prepare-for-upload package
