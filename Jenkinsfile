@@ -69,7 +69,7 @@ pipeline {
 			steps{	
 
 				dir('appium_test') {          
-                    git branch: 'master',
+                    git branch: 'appcenter',
                     credentialsId: 'ff2958ae-9c71-4d8e-997e-9badb8538d9a', 
                     url: 'https://github.com/renatoadsumus/appium.git'	
                 
