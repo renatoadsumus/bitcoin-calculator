@@ -7,8 +7,8 @@ pipeline {
 	}
 	
 
-	stages{  
-	
+	stages{  	
+		
 		stage('Build'){
 		
 			steps{								
@@ -74,27 +74,29 @@ pipeline {
                     url: 'https://github.com/renatoadsumus/appium.git'	
                 
 
-				 sh("""docker run \
-				 	--rm \
-				 	-w /root/codigo_teste \
-				 	-v ${WORKSPACE}:/root/codigo_aplicacao \
-					-v ${WORKSPACE}/appium_test:/root/codigo_teste \
-				 	appium:2.0 mvn -DskipTests -P prepare-for-upload package
-				""")
+					 sh("""docker run \
+						--rm \
+						-w /root/codigo_teste \
+						-v ${WORKSPACE}:/root/codigo_aplicacao \
+						-v ${WORKSPACE}/appium_test:/root/codigo_teste \
+						appium:2.0 mvn -DskipTests -P prepare-for-upload package
+					""")
 
-				sh("""docker run \
-				 	--rm \
-				 	-w /root/codigo_teste \
-					-e TOKEN_APPCENTER=$TOKEN \
-				 	-v ${WORKSPACE}:/root/codigo_aplicacao \
-					-v ${WORKSPACE}/appium_test:/root/codigo_teste \
-				 	appium:2.0 /root/appcenter_run_test.sh
-				""")
+					withCredentials([string(credentialsId: 'TOKEN_APPCENTER', variable: 'TOKEN')]) {
+						sh("""docker run \
+							--rm \
+							-w /root/codigo_teste \
+							-e TOKEN_APPCENTER=$TOKEN \
+							-v ${WORKSPACE}:/root/codigo_aplicacao \
+							-v ${WORKSPACE}/appium_test:/root/codigo_teste \
+							appium:2.0 /root/appcenter_run_test.sh
+						""")
+					}
 
 				}
 
 				echo "#####################################"
-				echo "FUNCTIONAL TEST DEVIVE FARM"		
+				echo "FUNCTIONAL TEST DEVICE FARM"		
 				echo "#####################################"
 			}		
 		}
