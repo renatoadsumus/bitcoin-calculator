@@ -77,6 +77,15 @@ pipeline {
                     url: 'https://github.com/renatoadsumus/appium.git'	
 	
 				sh("""docker run \
+						--rm \
+						-w /root/codigo_teste \
+						-v /home/ec2-user/repositorio:/root/.m2/repository \
+						-v ${WORKSPACE}:/root/codigo_aplicacao \
+						-v ${WORKSPACE}/appium_test:/root/codigo_teste \
+						appium:2.0 mvn clean package -DskipTests=true
+					""")
+
+				sh("""docker run \
 					--rm \
 					-e AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID} \
 					-e AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY} \
@@ -120,4 +129,3 @@ pipeline {
         }
     }	
 }
-
