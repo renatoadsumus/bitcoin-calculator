@@ -67,40 +67,35 @@ pipeline {
 			}		
 		}
 
-        stage('Functional Test - Device Farm'){
+        stage('Functional Test - AWS'){
 		
 			steps{	
 
 				dir('appium_test') {          
-                    git branch: 'appcenter',
+                    git branch: 'aws_device_farm',
                     credentialsId: 'ff2958ae-9c71-4d8e-997e-9badb8538d9a', 
                     url: 'https://github.com/renatoadsumus/appium.git'	
-                
-
-					 sh("""docker run \
+	
+				sh("""docker run \
 						--rm \
 						-w /root/codigo_teste \
 						-v /home/ec2-user/repositorio:/root/.m2/repository \
 						-v ${WORKSPACE}:/root/codigo_aplicacao \
 						-v ${WORKSPACE}/appium_test:/root/codigo_teste \
-						appium:2.0 mvn -DskipTests -P prepare-for-upload package
+						appium:2.0 mvn clean package -DskipTests=true
 					""")
 
-					withCredentials([string(credentialsId: 'TOKEN_APPCENTER', variable: 'TOKEN')]) {
-						sh("""docker run \
-							--rm \
-							-w /root/codigo_teste \
-							-e TOKEN_APPCENTER=$TOKEN \
-							-v ${WORKSPACE}:/root/codigo_aplicacao \
-							-v ${WORKSPACE}/appium_test:/root/codigo_teste \
-							appium:2.0 /root/appcenter_run_test.sh
-						""")
-					}
+				sh("""docker run \
+					--rm \
+					-e AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID} \
+					-e AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY} \
+					aws_cli:latest
+				""")					
 
 				}
 
 				echo "#####################################"
-				echo "FUNCTIONAL TEST DEVICE FARM"		
+				echo "FUNCTIONAL TEST DEVICE FARM AWS"		
 				echo "#####################################"
 			}		
 		}
@@ -129,9 +124,8 @@ pipeline {
 
 	post {
         always {   
-		  //cleanWs()
+		  cleanWs()
           echo "Eliminando..."
         }
     }	
 }
-
