@@ -8,6 +8,24 @@ pipeline {
 	
 
 	stages{  	
+	
+		stage('Unit Test'){
+		
+			steps{					
+				
+                sh("""docker run \
+				 	--rm \
+				 	-w /root/codigo_aplicacao \
+				 	-v ${WORKSPACE}:/root/codigo_aplicacao \
+					-v /home/ec2-user/repositorio:/root/.m2/repository \
+				 	renatoadsumus/android:latest gradle clean test
+				 """)
+
+				echo "#####################################"	
+				echo "###  UNIT TEST ###"
+				echo "#####################################"
+			}
+		}
 		
 		stage('Build'){
 		
@@ -18,7 +36,7 @@ pipeline {
 				 	-w /root/codigo_aplicacao \
 					-v /home/ec2-user/repositorio:/root/.m2/repository \
 				 	-v ${WORKSPACE}:/root/codigo_aplicacao \
-				 	appium:2.0 gradlew build
+				 	renatoadsumus/android:latest gradle build
 				""")
 
                 echo "#####################################"	
@@ -28,23 +46,7 @@ pipeline {
 				}		
 		}		
 		
-		stage('Unit Test'){
-		
-			steps{					
-				
-                sh("""docker run \
-				 	--rm \
-				 	-w /root/codigo_aplicacao \
-				 	-v ${WORKSPACE}:/root/codigo_aplicacao \
-					-v /home/ec2-user/repositorio:/root/.m2/repository \
-				 	appium:2.0 gradlew test
-				 """)
-
-				echo "#####################################"	
-				echo "###  UNIT TEST ###"
-				echo "#####################################"
-			}
-		}
+	
 		
 		
 		stage('Package - Create APK'){
@@ -56,7 +58,7 @@ pipeline {
 				 	-w /root/codigo_aplicacao \
 				 	-v ${WORKSPACE}:/root/codigo_aplicacao \
 					-v /home/ec2-user/repositorio:/root/.m2/repository \
-				 	appium:2.0 gradlew assembleDebug
+				 	renatoadsumus/android:latest gradle assembleDebug
 				""")
 
                 sh("ls ${WORKSPACE}/app/build/outputs/apk/debug/")
@@ -71,7 +73,7 @@ pipeline {
 		
 			steps{	
 
-				dir('appium_test') {          
+				/*dir('appium_test') {          
                     git branch: 'appcenter',
                     credentialsId: 'ff2958ae-9c71-4d8e-997e-9badb8538d9a', 
                     url: 'https://github.com/renatoadsumus/appium.git'	
@@ -97,7 +99,7 @@ pipeline {
 						""")
 					}
 
-				}
+				}*/
 
 				echo "#####################################"
 				echo "FUNCTIONAL TEST DEVICE FARM"		
@@ -109,7 +111,7 @@ pipeline {
 		
 			steps{	
 
-				withCredentials([string(credentialsId: 'TOKEN_APPCENTER', variable: 'TOKEN')]) {
+				/*withCredentials([string(credentialsId: 'TOKEN_APPCENTER', variable: 'TOKEN')]) {
 					sh("""docker run \
 				 	--rm \
 				 	-w /root/codigo_aplicacao \
@@ -118,7 +120,7 @@ pipeline {
 				 	appium:2.0 /root/appcenter_deploy.sh
 				""")		
 			
-				}
+				}*/
 
 				echo "#####################################"
 				echo "DEPLOY APPCENTER"		
