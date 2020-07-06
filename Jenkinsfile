@@ -117,7 +117,7 @@ pipeline {
 				 	-w /root/codigo_aplicacao \
 				 	-v ${WORKSPACE}:/root/codigo_aplicacao \
 					-e TOKEN_APPCENTER=$TOKEN \
-				 	appium:2.0 /root/appcenter_deploy.sh
+				 	renatoadsumus/android:latest /root/appcenter_deploy.sh
 				""")		
 			
 				}
