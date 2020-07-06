@@ -111,7 +111,7 @@ pipeline {
 		
 			steps{	
 
-				/*withCredentials([string(credentialsId: 'TOKEN_APPCENTER', variable: 'TOKEN')]) {
+				withCredentials([string(credentialsId: 'TOKEN_APPCENTER', variable: 'TOKEN')]) {
 					sh("""docker run \
 				 	--rm \
 				 	-w /root/codigo_aplicacao \
@@ -120,7 +120,7 @@ pipeline {
 				 	appium:2.0 /root/appcenter_deploy.sh
 				""")		
 			
-				}*/
+				}
 
 				echo "#####################################"
 				echo "DEPLOY APPCENTER"		
