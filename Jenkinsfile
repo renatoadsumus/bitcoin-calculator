@@ -116,7 +116,9 @@ pipeline {
 				 	--rm \
 				 	-w /root/codigo_aplicacao \
 				 	-v ${WORKSPACE}:/root/codigo_aplicacao \
-					-e TOKEN_APPCENTER=$TOKEN \
+					-e APPCENTER_NAME_APP=renatoadsumus/Bitcoin-Calculator \
+					-e APPCENTER_PATH_APK=app/build/outputs/apk/debug/app-debug.apk \
+					-e APPCENTER_TOKEN=$TOKEN \
 				 	renatoadsumus/android:latest /opt/appcenter_deploy.sh
 				""")		
 			
