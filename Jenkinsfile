@@ -47,6 +47,29 @@ pipeline {
 		}		
 		
 	
+		stage('Sonar'){
+		
+			steps{	
+
+				withCredentials([string(credentialsId: 'TOKEN_SONAR_CLOUD', variable: 'TOKEN')]) {
+					
+					sh("""docker run \
+				 	--rm \
+				 	-w /root/codigo_aplicacao \
+				 	-v ${WORKSPACE}:/root/codigo_aplicacao \
+					-e APPCENTER_NAME_APP=renatoadsumus-gmail.com/Bitcoin-Calculator \
+					-e APPCENTER_PATH_APK=app/build/outputs/apk/debug/app-debug.apk \
+					-e APPCENTER_TOKEN=$TOKEN \
+				 	renatoadsumus/android:latest sonar-scanner -v
+				""")		
+			
+				}
+
+				echo "#####################################"
+				echo " ANALISE SONAR CLOUD"		
+				echo "#####################################"
+			}		
+		}
 		
 		
 		stage('Package - Create APK'){
@@ -69,6 +92,8 @@ pipeline {
 			}		
 		}
 
+		
+	
         stage('Functional Test - Device Farm'){
 		
 			steps{	
